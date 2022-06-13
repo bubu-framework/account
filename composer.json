@@ -1,0 +1,31 @@
+{
+    "name": "bubu-framework/account",
+    "description": "Bubu-framework's account manager",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/bubu-framework/account",
+    "authors": [
+        {
+            "name": "QuentinBubu",
+            "email": "QuentinBubu.dev@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bubu\\Account\\": "src/",
+            "Bubu\\Account\\Api\\": "api/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bubu\\Account\\Tests\\" : "tests/"
+        }
+    },
+    "require": {
+        "bubu-framework/router": "^1.0",
+        "bubu-framework/lang": "^1.0",
+        "bubu-framework/database": "^1.1",
+        "vlucas/phpdotenv": "^5.4",
+        "bubu-framework/email": "^1.0"
+    }
+}
