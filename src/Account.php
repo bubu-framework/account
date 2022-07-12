@@ -20,7 +20,7 @@ class Account
      */
     public static function login(string $username, string $password, bool $keepSession = false)
     {
-        $dbData = Database::queryBuilder('users')
+        $dbData = Database::queryBuilder('Users')
         ->select('id', 'password', 'email_verified_at', 'token')
         ->where(Database::expr()::eq('username', $username))
         ->fetch();
@@ -62,12 +62,12 @@ class Account
         string $passwordConfirm,
         string $email
     ) {
-        $usernameFetch = Database::queryBuilder('users')
+        $usernameFetch = Database::queryBuilder('Users')
         ->select('username')
         ->where(Database::expr()::eq('username', $username))
         ->fetch();
 
-        $emailFetch = Database::queryBuilder('users')
+        $emailFetch = Database::queryBuilder('Users')
         ->select('email')
         ->where(Database::expr()::eq('email', $email))
         ->fetch();
@@ -83,7 +83,7 @@ class Account
 
         $emailCode = bin2hex(random_bytes(10));
 
-        Database::queryBuilder('users')
+        Database::queryBuilder('Users')
             ->insert([
                 'username' => $username,
                 'email'    => $email,
@@ -101,7 +101,7 @@ class Account
     public static function checkPassword(string $password, ?string $tokenPassed): bool
     {
         $token = Session::get('token');
-        $dbPass = Database::queryBuilder('users')
+        $dbPass = Database::queryBuilder('Users')
             ->select('password')
             ->where(Database::expr()::eq('token', $token ?? $tokenPassed))
             ->fetch();
@@ -115,7 +115,7 @@ class Account
         
         $newToken = bin2hex(random_bytes(30));
 
-        Database::queryBuilder('users')
+        Database::queryBuilder('Users')
             ->update([
                 'token' => $newToken
             ])
@@ -133,7 +133,7 @@ class Account
 
         $emailCode = bin2hex(random_bytes(10));
 
-        Database::queryBuilder('users')
+        Database::queryBuilder('Users')
             ->update([
                 'mail' => $newMail,
                 'email_verification_code' => $emailCode
@@ -147,7 +147,7 @@ class Account
 
     public static function verifyEmailCode(string $code): bool
     {
-        Database::queryBuilder('users')
+        Database::queryBuilder('Users')
             ->update([
                 'email_verification_code' => null,
             ])
@@ -168,7 +168,7 @@ class Account
         $passCheck = self::regexPassword($newPassword, $confirm);
         if ($passCheck !== true) return $passCheck;
 
-        Database::queryBuilder('users')
+        Database::queryBuilder('Users')
             ->update([
                 'password' => password_hash($newPassword, constant($_ENV['HASH_ALGO']))
             ])
