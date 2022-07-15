@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b6d88a5319446b9fe72ca6d7f925f78",
+    "content-hash": "64b012699955b4eb12df5bd62c960d9e",
     "packages": [
         {
             "name": "bubu-framework/database",
-            "version": "V1.1.1",
+            "version": "V1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bubu-framework/database.git",
-                "reference": "6efa8d27d042a17c954f8af6c97228e4fcead00b"
+                "reference": "4384f474ba318123d453ac6b7a59a0c5211178f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bubu-framework/database/zipball/6efa8d27d042a17c954f8af6c97228e4fcead00b",
-                "reference": "6efa8d27d042a17c954f8af6c97228e4fcead00b",
+                "url": "https://api.github.com/repos/bubu-framework/database/zipball/4384f474ba318123d453ac6b7a59a0c5211178f6",
+                "reference": "4384f474ba318123d453ac6b7a59a0c5211178f6",
                 "shasum": ""
             },
             "require": {
@@ -44,9 +44,9 @@
             "homepage": "https://github.com/bubu-framework/database",
             "support": {
                 "issues": "https://github.com/bubu-framework/database/issues",
-                "source": "https://github.com/bubu-framework/database/tree/V1.1.1"
+                "source": "https://github.com/bubu-framework/database/tree/V1.2"
             },
-            "time": "2021-11-27T16:39:59+00:00"
+            "time": "2022-07-15T16:57:26+00:00"
         },
         {
             "name": "bubu-framework/email",
@@ -130,44 +130,6 @@
                 "source": "https://github.com/bubu-framework/http/tree/V1.0.5.1"
             },
             "time": "2021-11-28T16:50:23+00:00"
-        },
-        {
-            "name": "bubu-framework/lang",
-            "version": "V1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bubu-framework/lang.git",
-                "reference": "80942c2da519df66a9080f256490e01ac2d227cc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/bubu-framework/lang/zipball/80942c2da519df66a9080f256490e01ac2d227cc",
-                "reference": "80942c2da519df66a9080f256490e01ac2d227cc",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Bubu\\Lang\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "QuentinBubu",
-                    "email": "QuentinBubu.dev@gmail.com"
-                }
-            ],
-            "description": "Bubu-framework's Langs",
-            "homepage": "https://github.com/bubu-framework/lang",
-            "support": {
-                "issues": "https://github.com/bubu-framework/lang/issues",
-                "source": "https://github.com/bubu-framework/lang/tree/V1.0.1"
-            },
-            "time": "2022-06-12T22:12:16+00:00"
         },
         {
             "name": "bubu-framework/router",
@@ -275,16 +237,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.0",
+            "version": "v6.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "e43bac82edc26ca04b36143a48bde1c051cfd5b1"
+                "reference": "9400f305a898f194caff5521f64e5dfa926626f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e43bac82edc26ca04b36143a48bde1c051cfd5b1",
-                "reference": "e43bac82edc26ca04b36143a48bde1c051cfd5b1",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/9400f305a898f194caff5521f64e5dfa926626f3",
+                "reference": "9400f305a898f194caff5521f64e5dfa926626f3",
                 "shasum": ""
             },
             "require": {
@@ -296,8 +258,8 @@
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
                 "doctrine/annotations": "^1.2",
-                "php-parallel-lint/php-console-highlighter": "^0.5.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3.1",
+                "php-parallel-lint/php-console-highlighter": "^1.0.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3.2",
                 "phpcompatibility/php-compatibility": "^9.3.5",
                 "roave/security-advisories": "dev-latest",
                 "squizlabs/php_codesniffer": "^3.6.2",
@@ -341,7 +303,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.0"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.3"
             },
             "funding": [
                 {
@@ -349,7 +311,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-28T15:31:21+00:00"
+            "time": "2022-06-20T09:21:02+00:00"
         },
         {
             "name": "phpoption/phpoption",

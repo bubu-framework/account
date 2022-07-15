@@ -23,7 +23,6 @@
     },
     "require": {
         "bubu-framework/router": "^1.0",
-        "bubu-framework/lang": "^1.0",
         "bubu-framework/database": "^1.1",
         "vlucas/phpdotenv": "^5.4",
         "bubu-framework/email": "^1.0"

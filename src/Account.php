@@ -3,7 +3,6 @@ namespace Bubu\Account;
 
 use Bubu\Database\Database;
 use Bubu\Http\Session\Session;
-use Bubu\Lang\Lang;
 use Bubu\Mail\MailTemplate;
 
 class Account
@@ -12,38 +11,33 @@ class Account
 
     /**
      * login
-     * @param string $username
+     * @param string $email
      * @param string $password
      * @param bool $keepSession
      *
      * @return bool|string
      */
-    public static function login(string $username, string $password, bool $keepSession = false)
+    public static function login(string $email, string $password, bool $keepSession = false)
     {
         $dbData = Database::queryBuilder('Users')
         ->select('id', 'password', 'email_verified_at', 'token')
-        ->where(Database::expr()::eq('username', $username))
+        ->where(Database::expr()::eq('email', $email))
         ->fetch();
 
-        if ($dbData === false || count($dbData) === 0) {
-            return Lang::get('account-not-found');
-        } elseif (!password_verify($password, $dbData['password'])) {
-            return Lang::get('incorrect-password');
-        } elseif (is_null($dbData['email_verified_at'])) {
-            return Lang::get('email-not-verified');
-        } else {
+        if ($dbData === false || count($dbData) === 0) return 'account_not_found';
+        elseif (!password_verify($password, $dbData['password'])) return 'wrong_password';
+        elseif (is_null($dbData['email_verified_at'])) return 'email_not_verified';
+        else {
             Session::set('token', $dbData['token']);
-            if ($keepSession) {
-                Session::changeSessionLifetime($_ENV['SESSION_KEEP_CONNECT']);
-            }
+            if ($keepSession) Session::changeSessionLifetime($_ENV['SESSION_KEEP_CONNECT']);
             return true;
         }
     }
 
     public static function regexPassword(string $password, string $confim)
     {
-        if (strlen($password) < 10) return Lang::get('password-length');
-        elseif ($password !== $confim) return Lang::get('not-same-password');
+        if (strlen($password) < 10) return 'password_too_short';
+        elseif ($password !== $confim) return 'password_not_match';
         else return true;
     }
 
@@ -72,11 +66,8 @@ class Account
         ->where(Database::expr()::eq('email', $email))
         ->fetch();
 
-        if ($usernameFetch !== false && count($usernameFetch) !== 0) {
-            return Lang::get('existing-username');
-        } elseif ($emailFetch !== false && count($emailFetch) !== 0) {
-            return Lang::get('existing-email');
-        }
+        if ($usernameFetch !== false && count($usernameFetch) !== 0) return 'username_already_used';
+        elseif ($emailFetch !== false && count($emailFetch) !== 0) return 'email_already_used';
 
         $passCheck = self::regexPassword($password, $passwordConfirm);
         if ($passCheck !== true) return $passCheck;
@@ -111,7 +102,7 @@ class Account
 
     public static function updateToken(string $password, ?string $token): string
     {
-        if (!self::checkPassword($password, $token)) return Lang::get('incorrect-password');
+        if (!self::checkPassword($password, $token)) return 'wrong_password';
         
         $newToken = bin2hex(random_bytes(30));
 
@@ -129,7 +120,7 @@ class Account
 
     public static function updateEmail(string $newMail, string $password, ?string $token)
     {
-        if (!self::checkPassword($password, $token)) return Lang::get('incorrect-password');
+        if (!self::checkPassword($password, $token)) return 'wrong_password';
 
         $emailCode = bin2hex(random_bytes(10));
 
@@ -163,7 +154,7 @@ class Account
         string $confirm,
         ?string $token
     ) {
-        if (!self::checkPassword($currentPassword, $token)) return Lang::get('incorrect-password');
+        if (!self::checkPassword($currentPassword, $token)) return 'wrong_password';
 
         $passCheck = self::regexPassword($newPassword, $confirm);
         if ($passCheck !== true) return $passCheck;

@@ -8,21 +8,21 @@ class AccountUpdate
 {
     public static function token()
     {
-       echo  Account::updateToken($_POST['password'], $_POST['token'] ?? null);
+       echo json_encode(['token' => Account::updateToken($_POST['password'], $_POST['token'] ?? null)]);
     }
 
     public static function email()
     {
-        echo Account::updateEmail($_POST['newMail'], $_POST['password'], $_POST['token'] ?? null);
+        echo json_encode(['email' => Account::updateEmail($_POST['newMail'], $_POST['password'], $_POST['token'] ?? null)]);
     }
 
     public static function verifyEmail($code)
     {
-        echo Account::verifyEmailCode($code);
+        echo json_encode(['verified_email' => Account::verifyEmailCode($code)]);
     }
 
     public static function password()
     {
-        echo Account::updatePassword($_POST['password'], $_POST['newPassword'], $_POST['confirmPassword'], $_POST['token'] ?? null);
+        echo json_encode(['token' => Account::updatePassword($_POST['password'], $_POST['newPassword'], $_POST['confirmPassword'], $_POST['token'] ?? null)]);
     }
 }

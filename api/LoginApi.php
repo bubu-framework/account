@@ -9,7 +9,7 @@ class LoginApi
     public static function login()
     {
         echo Account::login(
-            $_POST['username'],
+            $_POST['email'],
             $_POST['password'],
             $_POST['keepSession'] ?? false
         );
