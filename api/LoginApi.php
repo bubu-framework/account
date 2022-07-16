@@ -8,10 +8,11 @@ class LoginApi
 {
     public static function login()
     {
-        echo Account::login(
+        header('Content-Type: application/json');
+        echo json_encode(['account' => Account::login(
             $_POST['email'],
             $_POST['password'],
             $_POST['keepSession'] ?? false
-        );
+        )]);
     }
 }

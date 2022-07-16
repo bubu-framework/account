@@ -8,11 +8,12 @@ class RegisterApi
 {
     public static function register()
     {
-        echo Account::signup(
+        header('Content-Type: application/json');
+        echo json_encode(['account' => Account::signup(
             $_POST['username'],
             $_POST['password'],
             $_POST['passwordConfirm'],
             $_POST['email']
-        );
+        )]);
     }
 }
