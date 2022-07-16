@@ -20,21 +20,22 @@ class Account
     public static function login(string $email, string $password, bool $keepSession = false)
     {
         $dbData = Database::queryBuilder('Users')
-        ->select('id', 'password', 'email_verified_at', 'token')
-        ->where(Database::expr()::eq('email', $email))
-        ->fetch();
+            ->select('id', 'username', 'password', 'email_verified_at', 'token')
+            ->where(Database::expr()::eq('email', $email))
+            ->fetch();
 
         if ($dbData === false || count($dbData) === 0) return 'account_not_found';
         elseif (!password_verify($password, $dbData['password'])) return 'wrong_password';
         elseif (is_null($dbData['email_verified_at'])) return 'email_not_verified';
         else {
             Session::set('token', $dbData['token']);
+            Session::set('username', $dbData['username']);
             if ($keepSession) Session::changeSessionLifetime($_ENV['SESSION_KEEP_CONNECT']);
             return true;
         }
     }
 
-    public static function regexPassword(string $password, string $confim)
+    public static function regexPassword(string $password, string $confim): mixed
     {
         if (strlen($password) < 10) return 'password_too_short';
         elseif ($password !== $confim) return 'password_not_match';
@@ -57,14 +58,14 @@ class Account
         string $email
     ) {
         $usernameFetch = Database::queryBuilder('Users')
-        ->select('username')
-        ->where(Database::expr()::eq('username', $username))
-        ->fetch();
+            ->select('username')
+            ->where(Database::expr()::eq('username', $username))
+            ->fetch();
 
         $emailFetch = Database::queryBuilder('Users')
-        ->select('email')
-        ->where(Database::expr()::eq('email', $email))
-        ->fetch();
+            ->select('email')
+            ->where(Database::expr()::eq('email', $email))
+            ->fetch();
 
         if ($usernameFetch !== false && count($usernameFetch) !== 0) return 'username_already_used';
         elseif ($emailFetch !== false && count($emailFetch) !== 0) return 'email_already_used';
@@ -138,13 +139,22 @@ class Account
 
     public static function verifyEmailCode(string $code): bool
     {
-        Database::queryBuilder('Users')
+        $r = Database::queryBuilder('Users')
+            ->select('email_verification_code')
+            ->where(Database::expr()::eq('email_verification_code', $code))
+            ->fetch();
+        
+        if (!$r) return false;
+
+        $r = Database::queryBuilder('Users')
             ->update([
                 'email_verification_code' => null,
+                'email_verified_at' => date('Y-m-d H:i:s')
             ])
             ->where(Database::expr()::eq('email_verification_code', $code))
             ->execute();
 
+        if (!$r) return false;
         return true;
     }
 
