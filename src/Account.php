@@ -127,7 +127,7 @@ class Account
 
         Database::queryBuilder('Users')
             ->update([
-                'mail' => $newMail,
+                'email' => $newMail,
                 'email_verification_code' => $emailCode
             ])
             ->where(Database::expr()::eq('token', Session::get('token')))
