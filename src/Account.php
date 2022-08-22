@@ -1,9 +1,10 @@
 <?php
 namespace Bubu\Account;
 
+use Bubu\Mail\Mail;
 use Bubu\Database\Database;
-use Bubu\Http\Session\Session;
 use Bubu\Mail\MailTemplate;
+use Bubu\Http\Session\Session;
 
 class Account
 {
@@ -176,6 +177,53 @@ class Account
             ->where(Database::expr()::eq('token', Session::get('token')))
             ->execute();
         
+        return true;
+    }
+
+    public static function resetPassword(string $newPassword, string $confirm, string $code)
+    {
+        $passCheck = self::regexPassword($newPassword, $confirm);
+        if ($passCheck !== true) return $passCheck;
+
+        Database::queryBuilder('Users')
+            ->update([
+                'password' => password_hash($newPassword, constant($_ENV['HASH_ALGO'])),
+                'token' => bin2hex(random_bytes(30)),
+                'email_verification_code' => null
+            ])
+            ->where(Database::expr()::eq('email_verification_code', $code))
+            ->execute();
+        return true;
+    }
+
+    public static function sendEmailCodePassword(string $email)
+    {
+        $emailCode = bin2hex(random_bytes(10));
+        Database::queryBuilder('Users')
+            ->update([
+                'email_verification_code' => $emailCode
+            ])
+            ->where(Database::expr()::eq('email', $email))
+            ->execute();
+        $content = <<<HTML
+        <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            </head>
+            <body>
+                <p>
+                    Follow the link for validate email address 
+                    <a href="http://{$_SERVER['SERVER_NAME']}/api/account/update/password/{$emailCode}">
+                    http://{$_SERVER['SERVER_NAME']}/api/account/update/password/{$emailCode}
+                    </a>
+                </p>
+                <p>Thank's!</p>
+            </body>
+        </html>
+    HTML;
+        Mail::send($email, 'Reset password', $content);
         return true;
     }
 }
